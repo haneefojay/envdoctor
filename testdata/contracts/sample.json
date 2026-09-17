@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "x-envdoctor-version": "1",
+  "type": "object",
+  "properties": {
+    "APP_ENV": {"type": "string", "enum": ["development", "production"]},
+    "PORT": {"type": "integer", "minimum": 1, "maximum": 65535, "default": 3000},
+    "DATABASE_URL": {"type": "string", "format": "uri", "x-envdoctor-secret": true},
+    "DEBUG": {"type": "boolean"}
+  },
+  "required": ["APP_ENV", "PORT", "DATABASE_URL"]
+}

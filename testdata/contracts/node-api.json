@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "title": "Node.js API",
+  "description": "Configuration contract for a plain Node.js HTTP API.",
+  "required": ["HTTP_PORT", "CACHE_URL"],
+  "properties": {
+    "HTTP_PORT": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 65535
+    },
+    "HOST": {
+      "type": "string",
+      "default": "0.0.0.0"
+    },
+    "CACHE_URL": {
+      "type": "string",
+      "format": "uri"
+    },
+    "REQUEST_TIMEOUT_MS": {
+      "type": "integer",
+      "minimum": 100,
+      "multipleOf": 50,
+      "default": 1000
+    },
+    "RETRY_COUNT": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 10,
+      "default": 3
+    },
+    "DEBUG_LOGGING": {
+      "type": "boolean",
+      "default": false
+    },
+    "SUPPORT_EMAIL": {
+      "type": "string",
+      "format": "email"
+    }
+  }
+}

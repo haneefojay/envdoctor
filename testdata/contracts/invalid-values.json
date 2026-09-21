@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "title": "Invalid-values scenario",
+  "description": "Contract exercising every value-driven validation diagnostic with testdata/dotenv/invalid-values.env.",
+  "required": ["MISSING_VAL", "EMPTY_VAL"],
+  "properties": {
+    "MISSING_VAL": {
+      "type": "string"
+    },
+    "EMPTY_VAL": {
+      "type": "string"
+    },
+    "TYPE_BOOL": {
+      "type": "boolean"
+    },
+    "TYPE_INT": {
+      "type": "integer"
+    },
+    "TYPE_NUM": {
+      "type": "number"
+    },
+    "ENUM_VAL": {
+      "type": "string",
+      "enum": ["alpha", "beta"]
+    },
+    "CONST_VAL": {
+      "type": "string",
+      "const": "fixed"
+    },
+    "PATTERN_VAL": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$"
+    },
+    "LEN_VAL": {
+      "type": "string",
+      "minLength": 5,
+      "maxLength": 10
+    },
+    "MIN_VAL": {
+      "type": "integer",
+      "minimum": 10,
+      "maximum": 20
+    },
+    "EXMIN_VAL": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "MULT_VAL": {
+      "type": "number",
+      "multipleOf": 0.25
+    },
+    "FMT_EMAIL": {
+      "type": "string",
+      "format": "email"
+    },
+    "FMT_URI": {
+      "type": "string",
+      "format": "uri"
+    }
+  }
+}

@@ -1,0 +1,65 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        # Native ran targets. macos-latest is the Apple-silicon (arm64)
+        # runner; Linux and Windows runners are amd64. arm64 runtime coverage
+        # for Linux/Windows is not available on GitHub-hosted runners, so
+        # those targets are covered at compile time by the crossbuild job.
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+      - name: gofmt check
+        # $(...) and test(1) require a POSIX shell; Git Bash is available on
+        # the Windows runner too.
+        shell: bash
+        run: test -z "$(gofmt -l .)" || (echo "gofmt needed:"; gofmt -l .; exit 1)
+      - name: go vet
+        run: go vet ./...
+      - name: build
+        run: go build ./...
+      - name: test
+        run: go test ./...
+      - name: race test
+        # The race detector needs a C toolchain, which GitHub's Windows
+        # runners do not provide by default. Race coverage runs on Linux and
+        # macOS, where gcc/clang are present.
+        if: runner.os != 'Windows'
+        run: go test -race ./...
+
+  crossbuild:
+    # Compile-only coverage for every documented target. GitHub-hosted runners
+    # only expose amd64 (Linux/Windows) and arm64 (macOS), so the remaining
+    # targets are cross-compiled with CGO disabled to prove they build.
+    strategy:
+      fail-fast: false
+      matrix:
+        goos: [linux, windows, darwin]
+        goarch: [amd64, arm64]
+    runs-on: ubuntu-latest
+    env:
+      GOOS: ${{ matrix.goos }}
+      GOARCH: ${{ matrix.goarch }}
+      CGO_ENABLED: "0"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+      - name: cross-compile
+        run: go build ./...

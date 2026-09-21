@@ -1,0 +1,57 @@
+name: Release
+
+# Tagged pushes (vX.Y.Z, semantic versioning) build and package EnvDoctor for
+# every documented target and open a draft GitHub Release with assets and
+# checksums. The draft is reviewed and published manually. Contract semantics,
+# diagnostic codes, JSON output, and exit codes are compatibility-sensitive;
+# breaking changes to them require a MAJOR version bump (see docs/release.md).
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+
+      - name: gofmt check
+        shell: bash
+        run: test -z "$(gofmt -l .)" || (echo "gofmt needed:"; gofmt -l .; exit 1)
+      - name: go vet
+        run: go vet ./...
+      - name: tests
+        run: go test ./...
+
+      # The tagged version must match the CLI's embedded default version,
+      # because `go install ...@<tag>` builds without -ldflags and would
+      # otherwise ship a stale version string.
+      - name: verify tag matches embedded version
+        run: |
+          embedded="$(go run ./cmd/envdoctor version | awk '{print $2}')"
+          tag="${GITHUB_REF_NAME#v}"
+          if [ "$embedded" != "$tag" ]; then
+            echo "version mismatch: binary reports $embedded, tag is $tag" >&2
+            echo "bump var version in cmd/envdoctor/main.go to match the tag" >&2
+            exit 1
+          fi
+
+      - name: package release artifacts
+        run: go run ./tools/release -version "${{ github.ref_name }}" -notes CHANGELOG.md -out dist
+
+      - name: create draft release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "${{ github.ref_name }}" dist/* \
+            --draft \
+            --title "EnvDoctor ${{ github.ref_name }}" \
+            --notes-file dist/NOTES.md

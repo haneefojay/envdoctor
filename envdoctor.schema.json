@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "title": "EnvDoctor repository build environment",
+  "description": "Configuration contract for EnvDoctor's own build environment. The only environment variables this repository sets as real configuration are the Go cross-compilation knobs used by the CI crossbuild job (GOOS, GOARCH, CGO_ENABLED). Every variable is optional: a normal development build sets none of them, so this contract never fails on an arbitrary developer machine while still rejecting misspelled or out-of-range values when they do appear.",
+  "properties": {
+    "GOOS": {
+      "type": "string",
+      "description": "Go cross-compilation target operating system, set by the CI crossbuild job.",
+      "enum": ["linux", "windows", "darwin"],
+      "default": "linux"
+    },
+    "GOARCH": {
+      "type": "string",
+      "description": "Go cross-compilation target architecture, set by the CI crossbuild job.",
+      "enum": ["amd64", "arm64"],
+      "default": "amd64"
+    },
+    "CGO_ENABLED": {
+      "type": "integer",
+      "description": "Whether cgo is enabled for a cross-build. The CI crossbuild job disables it (0).",
+      "enum": [0, 1],
+      "default": 0
+    }
+  }
+}

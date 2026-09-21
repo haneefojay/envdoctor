@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "title": "Frontend (Next.js public variables)",
+  "description": "Configuration contract for a Next.js frontend. Public variables use the NEXT_PUBLIC_ prefix and are embedded into the client bundle.",
+  "required": ["NEXT_PUBLIC_API_URL"],
+  "properties": {
+    "NEXT_PUBLIC_API_URL": {
+      "type": "string",
+      "format": "uri"
+    },
+    "NEXT_PUBLIC_SITE_NAME": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 40,
+      "default": "my-app"
+    },
+    "NEXT_PUBLIC_ENABLE_ANALYTICS": {
+      "type": "boolean",
+      "default": false
+    },
+    "NEXT_PUBLIC_SENTRY_DSN": {
+      "type": "string",
+      "format": "uri",
+      "x-envdoctor-secret": true
+    }
+  }
+}

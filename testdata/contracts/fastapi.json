@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "title": "FastAPI service",
+  "description": "Configuration contract for a FastAPI (Uvicorn/Gunicorn) service.",
+  "required": ["DATABASE_URL", "JWT_SECRET"],
+  "properties": {
+    "APP_NAME": {
+      "type": "string",
+      "maxLength": 64,
+      "default": "fastapi-service"
+    },
+    "PORT": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 65535,
+      "default": 8000
+    },
+    "WORKERS": {
+      "type": "integer",
+      "minimum": 1,
+      "default": 1
+    },
+    "LOG_LEVEL": {
+      "type": "string",
+      "enum": ["debug", "info", "warning", "error"],
+      "default": "info"
+    },
+    "DATABASE_URL": {
+      "type": "string",
+      "format": "uri",
+      "x-envdoctor-secret": true
+    },
+    "REDIS_URL": {
+      "type": "string",
+      "format": "uri"
+    },
+    "JWT_SECRET": {
+      "type": "string",
+      "minLength": 32,
+      "x-envdoctor-secret": true
+    },
+    "ALLOW_CORS": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+}

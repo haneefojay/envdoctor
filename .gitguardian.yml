@@ -1,0 +1,64 @@
+# GitGuardian configuration (https://github.com/GitGuardian/ggshield)
+#
+# EnvDoctor's security suites deliberately feed the CLI distinctive,
+# secret-looking values as TEST FIXTURES and assert those values never reach
+# any output (stdout, stderr, JSON, logs, test failure messages, generated
+# files). These values are not real credentials and MUST NOT be removed or
+# weakened: AGENTS.md requires realistic secret values so non-disclosure is
+# actually exercised.
+#
+# The fixtures below are ignored by SHA-256 so that no real credential can
+# ever be masked by this list. Plaintext is shown in comments solely for
+# reviewability; the fixture values already appear verbatim in the test
+# sources and testdata files checked into this repository.
+version: 2
+
+ignore:
+  # s3cr3t-t0k3n-9zYxWv
+  - match_sha256: 52af951af5feb0cc3c80bde92f850d668510ac8113631c4c41dd35ea4dba671e
+    reason: Test fixture secret used by internal/output/human_test.go and internal/validate/validate_test.go to assert secrets never reach human output.
+  # super-secret-password
+  - match_sha256: 5c76fcf4400da3b4804d70b91af20703d483f2c5860cc2f8d59592a1da8d2121
+    reason: Test fixture secret used by cmd/envdoctor/security_test.go and internal/generate/generate_test.go.
+  # super-secret-password-for-signing-tokens
+  - match_sha256: 48545d3855581ef1cfe3801e4a5aeaa62600cc964e456ceb51b7d6852076f59d
+    reason: Test fixture secret used by internal/integration/integration_test.go and testdata/dotenv/fastapi-valid.env.
+  # ghp_9zYxWvUtSrQpOnMlKjIhGfEdCbA0123456789
+  - match_sha256: 063cbc12f9d575c442e02117595376e5d3e2a8f2e363aabbd2ad5dab26f6ea05
+    reason: Test fixture GitHub-style token used by cmd/envdoctor/security_test.go.
+  # supersecretvalue-0xDEADBEEF-1234567890
+  - match_sha256: 837ca945f0c8f37226cc64d3b461051d3964d04e5f52e25a5f41205a6aff3003
+    reason: Test fixture secret used by cmd/envdoctor/check_test.go.
+  # 8f14e45fceea167a5a36dedd4bea2543
+  - match_sha256: 403dd45c5e49532f648e756d9178b73467a741444a321d2e0755ebde19ac8523
+    reason: Test fixture fake hash used by cmd/envdoctor/security_test.go.
+  # CorrectHorseBatteryStaple
+  - match_sha256: 7abdae32d3c9fd31959fd66c8c48de11bdff24b1dad2542f46faa0ebc50329fe
+    reason: Test fixture password in testdata/dotenv/secret-heavy-valid.env.
+  # s1gn1ng-5ecr3t-must-not-leak-00000000
+  - match_sha256: df5d353f90c4512967463f047ffe1e56309e73a2307254e89ad72f58fcdd1f04
+    reason: Test fixture signing secret in testdata/dotenv/secret-heavy-valid.env and internal/integration/integration_test.go.
+  # AKIAIOSFODNN7EXAMPLE
+  - match_sha256: 1a5d44a2dca19669d72edf4c4f1c27c4c1ca4b4408fbb17f6ce4ad452d78ddb3
+    reason: Test fixture AWS access key sample in testdata/dotenv/secret-heavy-valid.env (documented AWS example, not real).
+  # c0mpl3xSMTPpassword!
+  - match_sha256: b71d7df654424998d4959619860ff54b35c6e5683f34eba39de2129d382345d0
+    reason: Test fixture SMTP password in testdata/dotenv/secret-heavy-valid.env.
+  # sk_live_51N3xt9ExAmPleToKen
+  - match_sha256: fbee5d2b500ba60de0fc67285c5cdf076ca44034ac7b1725f9f8b6cbc6b522da
+    reason: Test fixture fake Stripe key in testdata/dotenv/secret-heavy-valid.env.
+  # sk_prod_never_commit_this_key_42
+  - match_sha256: ded649744ef4d10c59760ef76babe332a28604c2a55f895b304d7f8e2e930821
+    reason: Test fixture fake private key in testdata/dotenv/nestjs-valid.env.
+  # postgres://user:p@ssw0rd@host/db
+  - match_sha256: 6f25a6bc09fbdc0093ef04358f231abf472f9339cc446ad5f0390abc4003e617
+    reason: Test fixture connection string used by internal/output/json_test.go.
+  # postgres://user:password@host:5432/db
+  - match_sha256: 327d2aa3e29c897457382e2ffd89cf845a7b90a7573580698dababbfc4871782
+    reason: Test fixture connection string used by cmd/envdoctor/security_test.go.
+  # postgres://app:secret@db.example.internal:5432/orders
+  - match_sha256: 3a361779197b70923b74d0eb8cbddf848b559597a9651c0408ef54226614f635
+    reason: Test fixture connection string in testdata/dotenv/fastapi-valid.env.
+  # prod-token with spaces
+  - match_sha256: 2225c74fdbc71710c961cc1a275e1a542ae9203fd7b7dcd28ec99f2a29a0b124
+    reason: Test fixture secret-with-spaces used by cmd/envdoctor/security_test.go.

@@ -1,0 +1,22 @@
+# Binaries
+/envdoctor
+/envdoctor.exe
+*.exe
+
+# Release packaging artifacts
+/dist/
+
+# Go build artifacts
+*.test
+*.out
+
+# Editor
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Local environment artifacts
+.env.local

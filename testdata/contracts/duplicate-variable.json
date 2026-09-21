@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "title": "Duplicate-variable scenario",
+  "description": "API_PORT is defined twice; duplicate variable definitions are rejected.",
+  "properties": {
+    "API_PORT": {
+      "type": "integer"
+    },
+    "API_PORT": {
+      "type": "string"
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "title": "Unsupported-keyword scenario",
+  "description": "minItems is outside the EnvDoctor Contract Profile; must be rejected.",
+  "properties": {
+    "A": {
+      "type": "string",
+      "minItems": 1
+    }
+  }
+}

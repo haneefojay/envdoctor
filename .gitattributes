@@ -1,0 +1,8 @@
+# Enforce LF line endings for text files on every platform.
+#
+# Blobs in this repository are committed with LF endings. Without this file,
+# git on Windows (core.autocrlf=true) checks files out with CRLF, which makes
+# `gofmt -l .` in CI flag every .go file and otherwise changes bytes that the
+# LF-only tests assert on. eol=lf guarantees byte-identical LF checkouts on
+# Linux, Windows, and macOS.
+* text=auto eol=lf

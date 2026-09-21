@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "title": "Unknown-variables scenario",
+  "description": "Small contract whose environment carries unrelated variables; they must surface as ENV_UNKNOWN warnings, not failures.",
+  "properties": {
+    "KNOWN_A": {
+      "type": "string",
+      "default": "a"
+    },
+    "KNOWN_B": {
+      "type": "integer",
+      "default": 1
+    }
+  }
+}

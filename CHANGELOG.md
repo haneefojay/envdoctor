@@ -6,6 +6,8 @@ project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## v0.1.0
+
 ### Added
 
 - Project bootstrap (`go.mod`, CLI entry point, test infrastructure, CI,
@@ -39,6 +41,8 @@ project adheres to [Semantic Versioning](https://semver.org/).
   Only explicit non-secret defaults become values; secrets and variables
   without defaults are emitted blank; descriptions become comments; output is
   deterministic and existing files are never silently overwritten.
+- Cross-platform invariant tests: human, JSON, and generated `.env.example`
+  output are asserted to use LF line endings only, on every host OS.
 
 ### Security
 
@@ -51,11 +55,6 @@ project adheres to [Semantic Versioning](https://semver.org/).
   code imports or calls a banned capability: network access, TLS, shell
   execution, subprocess spawning, logging frameworks, telemetry, panic, and any
   environment-dump use outside the documented process source.
-
-### Added
-
-- Cross-platform invariant tests: human, JSON, and generated `.env.example`
-  output are asserted to use LF line endings only, on every host OS.
 
 ### Changed
 
